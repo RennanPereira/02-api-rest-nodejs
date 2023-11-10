@@ -4,10 +4,13 @@ import { env } from './env'
 // Knex:(com K maiusculo)interface para usar configs para o migrations no config.
 
 export const config: Knex.Config = {
-  client: 'sqlite',
-  connection: {
-    filename: env.DATABASE_URL,
-  },
+  client: env.DATABASE_CLIENT,
+  connection:
+    env.DATABASE_CLIENT === 'sqlite'
+      ? {
+          filename: env.DATABASE_URL,
+        }
+      : env.DATABASE_URL,
   useNullAsDefault: true,
   migrations: {
     extension: 'ts',
